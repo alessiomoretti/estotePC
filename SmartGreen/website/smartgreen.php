@@ -4,31 +4,30 @@
  */
 
     $mysql_host = "localhost";
-    $mysql_user = "user";
-    $mysql_password = "password";
-    $mysql_database = "arduino_database";
+    $mysql_user = "root";
+    $mysql_password = "override";
+    $mysql_database = "arduino_db";
 
     // mysql connection
     $conn = new mysqli($mysql_host, $mysql_user, $mysql_password, $mysql_database);
-    if ($conn->connect_error) {
+    if ($conn->connect_errno) {
         die("mysqli connection error");
     }
 
     // retrieve data
     // sql query
     $sql = "SELECT * FROM measures WHERE id=1";
-    $result = mysqli_query($conn, $sql);
-    if ($result == false) {
-        die("mysqli error");
-    }
-    $row = $result->fetch_row();
+    $result = $conn->query($sql);
+
+    $row = $result->fetch_array(MYSQLI_ASSOC);
     $tempA =  (string)$row["tempA"];
     $tempB =  (string)$row["tempB"];
     $tempC =  (string)$row["tempC"];
     $moistA = (string)$row["moistA"];
     $moistB = (string)$row["moistB"];
     $moistC = (string)$row["moistC"];
-
+    
+    $result->close();
     $conn->close();
 ?>
 
@@ -69,6 +68,9 @@
                                     case "R":
                                         echo "NECESSARIO IRRIGARE";
                                         break;
+				    default:
+					echo $moistA;
+					break;
                                 }
                            ?>
     </h2> </p>
@@ -76,7 +78,7 @@
 </div>
 
 <div class="jumbotron text-center">
-    <h3>SERRA A</h3>
+    <h3>SERRA B</h3>
     <hr>
     <p><h2>TEMPERATURA: <?php echo $tempB ?></h2></p>
     <p><h2>UMIDITA' TERRENO: <?php
@@ -90,6 +92,9 @@
             case "R":
                 echo "NECESSARIO IRRIGARE";
                 break;
+	    default:
+		echo $moistB;
+		break;
         }
         ?>
     </h2> </p>
@@ -97,7 +102,7 @@
 </div>
 
 <div class="jumbotron text-center">
-    <h3>SERRA A</h3>
+    <h3>SERRA C</h3>
     <hr>
     <p><h2>TEMPERATURA: <?php echo $tempC ?></h2></p>
     <p><h2>UMIDITA' TERRENO: <?php
@@ -111,9 +116,11 @@
             case "R":
                 echo "NECESSARIO IRRIGARE";
                 break;
+	    default:
+		echo $moistC;
+		break;
         }
         ?>
     </h2> </p>
     <hr>
 </div>
-
