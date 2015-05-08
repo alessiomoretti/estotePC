@@ -4,9 +4,9 @@
  */
 
     $mysql_host = "localhost";
-    $mysql_user = "root";
-    $mysql_password = "override";
-    $mysql_database = "arduino_db";
+    $mysql_user = "user";
+    $mysql_password = "password";
+    $mysql_database = "arduino_database";
 
     // mysql connection
     $conn = new mysqli($mysql_host, $mysql_user, $mysql_password, $mysql_database);
